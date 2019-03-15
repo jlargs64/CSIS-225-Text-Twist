@@ -6,7 +6,7 @@ CSIS 225: Advanced Programming HW 4.
 
 # Names
 * Justin Largo
-* Leon
-* Jennifer
-* Michael
-* Yousef
+* Leon Griffiths
+* Jennifer LeClair
+* Michael Lamb
+* Yousef Borna
