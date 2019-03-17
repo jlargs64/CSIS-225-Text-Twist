@@ -15,7 +15,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
     // Instance Variables
     private static final long serialVersionUID = 9136266265671208067L;
-    private int width, height, x, y;
+    private int width, height;
     private ArrayList<String> gameWords = new ArrayList<>();
     private File board1, board2, board3;
     private JButton buttonBoard1, buttonBoard2, buttonBoard3;
@@ -104,6 +104,9 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         } finally {
 
             boardScanner.close();
+            buttonBoard1.setVisible(false);
+            buttonBoard2.setVisible(false);
+            buttonBoard3.setVisible(false);
         }
     }
 
