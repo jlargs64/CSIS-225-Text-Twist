@@ -1,3 +1,5 @@
+import java.util.Scanner;
+import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -8,13 +10,13 @@ import javax.swing.*;
  * @author Justin Largo
  * @version 1.0
  */
-public class TextTwist extends JPanel implements KeyListener, MouseListener {
+public class TextTwist extends JPanel implements MouseListener {
 
     // Instance Variables
     private static final long serialVersionUID = 9136266265671208067L;
     private int width, height, x, y;
     private String currentWord = "";
-
+    private JButton board1, board2, board3;
     public TextTwist() {
 
         setPreferredSize(new Dimension(800, 600));
@@ -27,8 +29,7 @@ public class TextTwist extends JPanel implements KeyListener, MouseListener {
         x = width / 2;
         y = height / 2;
 
-        //Add interface listeners
-        addKeyListener(this);
+        // Add interface listeners
         addMouseListener(this);
     }
 
@@ -36,26 +37,17 @@ public class TextTwist extends JPanel implements KeyListener, MouseListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Color.gray);
-        g.drawLine(x, y, x, y - 10);
-        g.drawLine(x, y, x + 10, y);
-        g.setColor(Color.green);
-        g.drawString(currentWord, x, y);
+        //Create title text
+        Font titleFont = new Font("Monospace", Font.BOLD, 32);
+        g.setFont(titleFont);
+        g.setColor(Color.WHITE);
+        g.drawString("Text Twist", width-200, 100);
     }
 
     public void keyPressed(KeyEvent e) {
     }
 
     public void keyReleased(KeyEvent e) {
-    }
-
-    public void keyTyped(KeyEvent e) {
-        char c = e.getKeyChar();
-        if (c != KeyEvent.CHAR_UNDEFINED) {
-            currentWord += c;
-            repaint();
-            e.consume();
-        }
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -71,24 +63,27 @@ public class TextTwist extends JPanel implements KeyListener, MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-        x = e.getX();
-        y = e.getY();
-        currentWord = "";
-        repaint();
-        e.consume();
+
+    }
+
+    // Used for drawing
+    public void drawLetter(MouseEvent e) {
+
     }
 
     public static void main(String[] args) {
+
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 // Create and set up the window.
                 JFrame frame = new JFrame("Text Twist");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                // Add the ubiquitous "Hello World" label.
                 TextTwist panel = new TextTwist();
                 frame.getContentPane().add(panel);
 
+                //Making sure the game scales well
+                frame.setResizable(false);
                 // Display the window.
                 frame.pack();
                 frame.setVisible(true);
