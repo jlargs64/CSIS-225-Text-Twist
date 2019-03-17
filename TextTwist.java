@@ -29,6 +29,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         height = getPreferredSize().height;
         setBackground(Color.BLACK);
         setFocusable(true);
+        setLayout(null);
 
         // Setting the files to have game data
         board1 = new File("game1.txt");
@@ -39,15 +40,18 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         buttonBoard1 = new JButton("Board 1");
         buttonBoard1.setVerticalTextPosition(AbstractButton.CENTER);
         buttonBoard1.setHorizontalTextPosition(AbstractButton.CENTER);
+        buttonBoard1.setBounds(100, 100, 400, 100);
 
         buttonBoard2 = new JButton("Board 2");
         buttonBoard2.setVerticalTextPosition(AbstractButton.CENTER);
         buttonBoard2.setHorizontalTextPosition(AbstractButton.CENTER);
+        buttonBoard2.setBounds(100, height/2-50, 400, 100);
 
         buttonBoard3 = new JButton("Board 3");
         buttonBoard3.setVerticalTextPosition(AbstractButton.CENTER);
         buttonBoard3.setHorizontalTextPosition(AbstractButton.CENTER);
-
+        buttonBoard3.setBounds(100, 400, 400, 100);
+        
         // Add interface listeners
         addMouseListener(this);
         buttonBoard1.addActionListener(this);
