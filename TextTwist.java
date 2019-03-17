@@ -8,7 +8,7 @@ import javax.swing.*;
 /**
  * A java implementation of Text Twist
  *
- * @author Justin Largo
+ * @author Justin Largo, Leon Griffiths, Jennifer LeClair, Michael Lamb, Yousef Borna
  * @version 1.0
  */
 public class TextTwist extends JPanel implements MouseListener, ActionListener {
