@@ -32,9 +32,8 @@ public class MainMenuPanel extends JPanel implements MouseListener, ActionListen
         setOpaque(true);
         setBackground(Color.BLACK);
         setFocusable(true);
-        setVisible(true);
         setLayout(null);
-
+        setVisible(true);
         // Setting the files to have game data
         board1 = new File("game1.txt");
         board2 = new File("game2.txt");
@@ -88,20 +87,22 @@ public class MainMenuPanel extends JPanel implements MouseListener, ActionListen
              * Selecting which gameboard to play with then read in words from a file for the
              * selected board.
              */
-            if (buttonBoard1.getModel().isPressed()) {
+            if (e.getSource() == buttonBoard1) {
 
                 boardScanner = new Scanner(board1);
                 while (boardScanner.hasNext()) {
 
                     gameWords.add(boardScanner.nextLine());
                 }
-            } else if (buttonBoard2.getModel().isPressed()) {
+                System.out.println("Board1 clicked");
+            } else if (e.getSource() == buttonBoard2) {
 
                 boardScanner = new Scanner(board2);
                 while (boardScanner.hasNext()) {
 
                     gameWords.add(boardScanner.nextLine());
                 }
+                System.out.println("Board2 clicked");
             } else {
 
                 boardScanner = new Scanner(board3);
@@ -109,6 +110,7 @@ public class MainMenuPanel extends JPanel implements MouseListener, ActionListen
 
                     gameWords.add(boardScanner.nextLine());
                 }
+                System.out.println("Board3 clicked");
             }
         } catch (Exception ex) {
 
@@ -116,6 +118,7 @@ public class MainMenuPanel extends JPanel implements MouseListener, ActionListen
         } finally {
 
             boardScanner.close();
+            setVisible(false);
         }
     }
 

@@ -30,7 +30,6 @@ public class GameMenuPanel extends JPanel implements MouseListener, ActionListen
         setBackground(Color.BLACK);
         setFocusable(true);
         setLayout(null);
-        setVisible(false);
     }
 
     @Override
