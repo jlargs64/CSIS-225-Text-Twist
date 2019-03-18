@@ -28,7 +28,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         MAIN_MENU, GAME_MENU;
     }
 
-    private GameState currentState = GameState.MAIN_MENU;
+    private GameState currentState;
 
     public TextTwist() {
 
@@ -42,6 +42,9 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
         // Set our score
         score = 0;
+
+        // Set the default main menu state
+        currentState = GameState.values()[0];
 
         // Setting the files to have game data
         board1 = new File("game1.txt");
@@ -83,12 +86,20 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             buttonBoard2.addActionListener(this);
             buttonBoard3.addActionListener(this);
 
+            //Make buttons visible
+            buttonBoard1.setVisible(true);
+            buttonBoard2.setVisible(true);
+            buttonBoard3.setVisible(true);
+            
             // Add buttons to container
             add(buttonBoard1);
             add(buttonBoard2);
             add(buttonBoard3);
             break;
         case GAME_MENU:
+            buttonBoard1.setVisible(false);
+            buttonBoard2.setVisible(false);
+            buttonBoard3.setVisible(false);
             g.drawString("SCORE: " + score, width - 200, height - 100);
             g.drawString("TIME: ", width - 200, height - 150);
             break;
@@ -128,7 +139,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         } finally {
 
             boardScanner.close();
-            currentState = GameState.GAME_MENU;
+            currentState = GameState.values()[1];
             repaint();
         }
     }
