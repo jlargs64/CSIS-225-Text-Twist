@@ -18,14 +18,14 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
     private static final long serialVersionUID = 9136266265671208067L;
     private int width, height;
     private ArrayList<String> gameWords = new ArrayList<>();
-    private File board1, board2, board3;
-    private JButton buttonBoard1, buttonBoard2, buttonBoard3;
+    private File board1, board2, board3, board4;
+    private JButton buttonBoard1, buttonBoard2, buttonBoard3, buttonBoard4;
     private Scanner boardScanner;
     private int score;
 
     // Managing the game state
     public enum GameState {
-        MAIN_MENU, GAME_MENU;
+        MAIN_MENU, GAME_MENU, HELP_MENU;
     }
 
     private GameState currentState;
@@ -47,9 +47,31 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         currentState = GameState.values()[0];
 
         // Setting the files to have game data
-        board1 = new File("game1.txt");
-        board2 = new File("game2.txt");
-        board3 = new File("game3.txt");
+        try {
+
+            board1 = new File("game1.txt");
+            board2 = new File("game2.txt");
+            board3 = new File("game3.txt");
+            board4 = new File("game4.txt");
+        } catch (Exception e) {
+
+            // If no file is found use a default board case
+            // and also print what went wrong
+
+            // EXPERIMENTAL
+
+            // gameWords.add("margin");
+            // gameWords.add("aiming");
+            // gameWords.add("grim");
+            // gameWords.add("rang");
+            // gameWords.add("rain");
+            // gameWords.add("aim");
+            // gameWords.add("air");
+            // gameWords.add("arm");
+
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -63,22 +85,29 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         g.drawString("Text Twist", width - 200, 100);
 
         switch (currentState) {
+
         case MAIN_MENU:
+
             // Adding Game board buttons
             buttonBoard1 = new JButton("Board 1");
             buttonBoard1.setVerticalTextPosition(AbstractButton.CENTER);
             buttonBoard1.setHorizontalTextPosition(AbstractButton.CENTER);
-            buttonBoard1.setBounds(100, 100, 400, 100);
+            buttonBoard1.setBounds(100, 50, 300, 100);
 
             buttonBoard2 = new JButton("Board 2");
             buttonBoard2.setVerticalTextPosition(AbstractButton.CENTER);
             buttonBoard2.setHorizontalTextPosition(AbstractButton.CENTER);
-            buttonBoard2.setBounds(100, height / 2 - 50, 400, 100);
+            buttonBoard2.setBounds(100, 200, 300, 100);
 
             buttonBoard3 = new JButton("Board 3");
             buttonBoard3.setVerticalTextPosition(AbstractButton.CENTER);
             buttonBoard3.setHorizontalTextPosition(AbstractButton.CENTER);
-            buttonBoard3.setBounds(100, 400, 400, 100);
+            buttonBoard3.setBounds(100, 300, 300, 100);
+
+            buttonBoard4 = new JButton("Board 4");
+            buttonBoard4.setVerticalTextPosition(AbstractButton.CENTER);
+            buttonBoard4.setHorizontalTextPosition(AbstractButton.CENTER);
+            buttonBoard4.setBounds(100, 350, 300, 100);
 
             // Add interface listeners
             addMouseListener(this);
@@ -86,22 +115,32 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             buttonBoard2.addActionListener(this);
             buttonBoard3.addActionListener(this);
 
-            //Make buttons visible
+            // Make buttons visible
             buttonBoard1.setVisible(true);
             buttonBoard2.setVisible(true);
             buttonBoard3.setVisible(true);
-            
+            buttonBoard4.setVisible(true);
+
             // Add buttons to container
             add(buttonBoard1);
             add(buttonBoard2);
             add(buttonBoard3);
             break;
+
         case GAME_MENU:
+
+            // Disable buttons
             buttonBoard1.setVisible(false);
             buttonBoard2.setVisible(false);
             buttonBoard3.setVisible(false);
+            buttonBoard4.setVisible(false);
+
+            // Draw are useful game text
             g.drawString("SCORE: " + score, width - 200, height - 100);
             g.drawString("TIME: ", width - 200, height - 150);
+            break;
+
+        case HELP_MENU:
             break;
         }
     }
@@ -110,10 +149,8 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
         try {
 
-            /*
-             * Selecting which gameboard to play with then read in words from a file for the
-             * selected board.
-             */
+            // Selecting which gameboard to play with then read in words
+            // from a file for the selected board.
             if (buttonBoard1.getModel().isPressed()) {
 
                 boardScanner = new Scanner(board1);
@@ -126,9 +163,15 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                 while (boardScanner.hasNext()) {
                     gameWords.add(boardScanner.nextLine());
                 }
-            } else {
+            } else if (buttonBoard3.getModel().isPressed()) {
 
                 boardScanner = new Scanner(board3);
+                while (boardScanner.hasNext()) {
+                    gameWords.add(boardScanner.nextLine());
+                }
+            } else {
+
+                boardScanner = new Scanner(board4);
                 while (boardScanner.hasNext()) {
                     gameWords.add(boardScanner.nextLine());
                 }
