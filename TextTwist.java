@@ -8,7 +8,8 @@ import javax.swing.*;
 /**
  * A java implementation of Text Twist
  *
- * @author Justin Largo
+ * @author Justin Largo, Leon Griffiths, Jennifer LeClair, Michael Lamb, Yousef
+ *         Borna
  * @version 1.0
  */
 public class TextTwist extends JPanel implements MouseListener, ActionListener {
@@ -20,6 +21,14 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
     private File board1, board2, board3;
     private JButton buttonBoard1, buttonBoard2, buttonBoard3;
     private Scanner boardScanner;
+    private int score;
+
+    // Managing the game state
+    public enum GameState {
+        MAIN_MENU, GAME_MENU;
+    }
+
+    private GameState currentState = GameState.MAIN_MENU;
 
     public TextTwist() {
 
@@ -31,37 +40,13 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         setFocusable(true);
         setLayout(null);
 
+        // Set our score
+        score = 0;
+
         // Setting the files to have game data
         board1 = new File("game1.txt");
         board2 = new File("game2.txt");
         board3 = new File("game3.txt");
-
-        // Adding Game board buttons
-        buttonBoard1 = new JButton("Board 1");
-        buttonBoard1.setVerticalTextPosition(AbstractButton.CENTER);
-        buttonBoard1.setHorizontalTextPosition(AbstractButton.CENTER);
-        buttonBoard1.setBounds(100, 100, 400, 100);
-
-        buttonBoard2 = new JButton("Board 2");
-        buttonBoard2.setVerticalTextPosition(AbstractButton.CENTER);
-        buttonBoard2.setHorizontalTextPosition(AbstractButton.CENTER);
-        buttonBoard2.setBounds(100, height/2-50, 400, 100);
-
-        buttonBoard3 = new JButton("Board 3");
-        buttonBoard3.setVerticalTextPosition(AbstractButton.CENTER);
-        buttonBoard3.setHorizontalTextPosition(AbstractButton.CENTER);
-        buttonBoard3.setBounds(100, 400, 400, 100);
-        
-        // Add interface listeners
-        addMouseListener(this);
-        buttonBoard1.addActionListener(this);
-        buttonBoard2.addActionListener(this);
-        buttonBoard3.addActionListener(this);
-
-        // Add buttons to container
-        add(buttonBoard1);
-        add(buttonBoard2);
-        add(buttonBoard3);
     }
 
     @Override
@@ -73,6 +58,41 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         g.setFont(titleFont);
         g.setColor(Color.WHITE);
         g.drawString("Text Twist", width - 200, 100);
+
+        switch (currentState) {
+        case MAIN_MENU:
+            // Adding Game board buttons
+            buttonBoard1 = new JButton("Board 1");
+            buttonBoard1.setVerticalTextPosition(AbstractButton.CENTER);
+            buttonBoard1.setHorizontalTextPosition(AbstractButton.CENTER);
+            buttonBoard1.setBounds(100, 100, 400, 100);
+
+            buttonBoard2 = new JButton("Board 2");
+            buttonBoard2.setVerticalTextPosition(AbstractButton.CENTER);
+            buttonBoard2.setHorizontalTextPosition(AbstractButton.CENTER);
+            buttonBoard2.setBounds(100, height / 2 - 50, 400, 100);
+
+            buttonBoard3 = new JButton("Board 3");
+            buttonBoard3.setVerticalTextPosition(AbstractButton.CENTER);
+            buttonBoard3.setHorizontalTextPosition(AbstractButton.CENTER);
+            buttonBoard3.setBounds(100, 400, 400, 100);
+
+            // Add interface listeners
+            addMouseListener(this);
+            buttonBoard1.addActionListener(this);
+            buttonBoard2.addActionListener(this);
+            buttonBoard3.addActionListener(this);
+
+            // Add buttons to container
+            add(buttonBoard1);
+            add(buttonBoard2);
+            add(buttonBoard3);
+            break;
+        case GAME_MENU:
+            g.drawString("SCORE: " + score, width - 200, height - 100);
+            g.drawString("TIME: ", width - 200, height - 150);
+            break;
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -108,9 +128,8 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         } finally {
 
             boardScanner.close();
-            buttonBoard1.setVisible(false);
-            buttonBoard2.setVisible(false);
-            buttonBoard3.setVisible(false);
+            currentState = GameState.GAME_MENU;
+            repaint();
         }
     }
 
