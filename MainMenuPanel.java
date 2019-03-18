@@ -118,7 +118,6 @@ public class MainMenuPanel extends JPanel implements MouseListener, ActionListen
         } finally {
 
             boardScanner.close();
-            setVisible(false);
         }
     }
 

@@ -15,9 +15,9 @@ public class GameMenuPanel extends JPanel implements MouseListener, ActionListen
     // Instance Variables
     private static final long serialVersionUID = 9136266265671208067L;
     private int width, height;
-    private ArrayList<String> gameWords;
     private int score;
-
+    protected ArrayList<String> gameWords;
+    
     public GameMenuPanel(int width, int height, ArrayList<String> gameWords) {
 
         this.width = width;
