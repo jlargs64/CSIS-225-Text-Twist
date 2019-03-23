@@ -125,7 +125,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         Font titleFont = new Font("Monospace", Font.BOLD, 32);
         g.setFont(titleFont);
         g.setColor(Color.WHITE);
-        g.drawString("Text Twist", width - 200, 100);
+        g.drawString("Text Twist", width - 165, 50);
 
         switch (currentState) {
 
@@ -152,9 +152,30 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             remove(helpButton);
             remove(exitButton);
 
+            //Draw where the letters we select go
+            //Words SHOULD NOT exceed 6 letters
+            int boxSize = 60;
+            int boxX = width/2;
+            int boxY = height/5;
+            for(int i = 0; i < gameWords.get(0).length(); i++){
+                g.drawRect(boxX, boxY, boxSize, boxSize);
+                boxX += 65;
+            }
+
+            //Draw words that can be selected
+            boxX = width/2;
+            boxY += 100;
+            for(int i = 0; i < gameWords.get(0).length(); i++){
+                g.drawArc(boxX, boxY, boxSize, boxSize, 0 , 360);
+                boxX += 65;
+            }
+            
+
             // Draw are useful game text
-            g.drawString("SCORE: " + score, width - 200, height - 100);
-            g.drawString("TIME: ", width - 200, height - 150);
+            g.drawString("TIME: ", width - 400, height - 100);
+            g.drawString("SCORE: ", width - 400, height - 200);
+            g.drawString(score+"", width - 400, height - 150);
+            g.drawRect(width - 240, height - 200, 200, 110);
             break;
 
         case HELP_MENU:
@@ -169,6 +190,16 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             remove(buttonBoard4);
             remove(helpButton);
 
+            // Draw helpful information on how to play the game
+            g.drawString("HOW TO PLAY ", 10, 50);
+            g.drawString("Rearrange the letters to make", 10, 80);
+            g.drawString("as many words as you can!", 10, 110);
+
+            g.drawString("SCORING ", 10, 200);
+            g.drawString("3 Letter Words: 90 points", 10, 230);
+            g.drawString("4 Letter Words: 180 points", 10, 260);
+            g.drawString("5 Letter Words: 250 points", 10, 290);
+            g.drawString("6 Letter Words: 360 points", 10, 320);
             break;
         }
     }
