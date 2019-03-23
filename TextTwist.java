@@ -21,6 +21,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
     private File board1, board2, board3, board4;
     private JButton buttonBoard1, buttonBoard2, buttonBoard3, buttonBoard4;
     private JButton helpButton, exitButton;
+    private JButton twistButton, enterButton, lastWordButton, clearButton;
     private Scanner boardScanner;
     private int score;
 
@@ -103,11 +104,39 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         helpButton.setBounds(450, 380, 300, 100);
 
         // The exit button goes back to main menu in this instance
+        int gameButtonX = (width / 2)-60;
+        int gameButtonY = height / 2;
+        int gameButtonWidth = 110;
+        int gameButtonHeight = 50;
         exitButton = new JButton("Back to Main Menu");
         exitButton.setVerticalTextPosition(AbstractButton.CENTER);
         exitButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        exitButton.setBounds(450, 380, 300, 100);
+        exitButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
 
+        // Buttons for the game screen
+        twistButton = new JButton("TWIST");
+        twistButton.setVerticalTextPosition(AbstractButton.CENTER);
+        twistButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        twistButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
+        gameButtonX += 115;
+
+        enterButton = new JButton("ENTER");
+        enterButton.setVerticalTextPosition(AbstractButton.CENTER);
+        enterButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        enterButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
+        gameButtonX += 115;
+
+        lastWordButton = new JButton("LAST WORD");
+        lastWordButton.setVerticalTextPosition(AbstractButton.BOTTOM);
+        lastWordButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        lastWordButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
+        gameButtonX += 115;
+
+        clearButton = new JButton("CLEAR");
+        clearButton.setVerticalTextPosition(AbstractButton.CENTER);
+        clearButton.setHorizontalTextPosition(AbstractButton.CENTER);
+        clearButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
+        
         // Add action listeners for checking if button is clicked
         buttonBoard1.addActionListener(this);
         buttonBoard2.addActionListener(this);
@@ -115,6 +144,10 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         buttonBoard4.addActionListener(this);
         helpButton.addActionListener(this);
         exitButton.addActionListener(this);
+        twistButton.addActionListener(this);
+        enterButton.addActionListener(this);
+        lastWordButton.addActionListener(this);
+        clearButton.addActionListener(this);
     }
 
     @Override
@@ -140,6 +173,10 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
             // Disable buttons
             remove(exitButton);
+            remove(twistButton);
+            remove(enterButton);
+            remove(lastWordButton);
+            remove(clearButton);
             break;
 
         case GAME_MENU:
@@ -152,29 +189,34 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             remove(helpButton);
             remove(exitButton);
 
-            //Draw where the letters we select go
-            //Words SHOULD NOT exceed 6 letters
+            // Enable buttons
+            add(twistButton);
+            add(enterButton);
+            add(lastWordButton);
+            add(clearButton);
+
+            // Draw where the letters we select go
+            // Words SHOULD NOT exceed 6 letters
             int boxSize = 60;
-            int boxX = width/2;
-            int boxY = height/5;
-            for(int i = 0; i < gameWords.get(0).length(); i++){
+            int boxX = width / 2;
+            int boxY = height / 5;
+            for (int i = 0; i < gameWords.get(0).length(); i++) {
                 g.drawRect(boxX, boxY, boxSize, boxSize);
-                boxX += 65;
+                boxX += 60;
             }
 
-            //Draw words that can be selected
-            boxX = width/2;
+            // Draw words that can be selected
+            boxX = width / 2;
             boxY += 100;
-            for(int i = 0; i < gameWords.get(0).length(); i++){
-                g.drawArc(boxX, boxY, boxSize, boxSize, 0 , 360);
+            for (int i = 0; i < gameWords.get(0).length(); i++) {
+                g.drawArc(boxX, boxY, boxSize, boxSize, 0, 360);
                 boxX += 65;
             }
-            
 
             // Draw are useful game text
             g.drawString("TIME: ", width - 400, height - 100);
             g.drawString("SCORE: ", width - 400, height - 200);
-            g.drawString(score+"", width - 400, height - 150);
+            g.drawString(score + "", width - 400, height - 150);
             g.drawRect(width - 240, height - 200, 200, 110);
             break;
 
@@ -189,6 +231,10 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             remove(buttonBoard3);
             remove(buttonBoard4);
             remove(helpButton);
+            remove(twistButton);
+            remove(enterButton);
+            remove(lastWordButton);
+            remove(clearButton);
 
             // Draw helpful information on how to play the game
             g.drawString("HOW TO PLAY ", 10, 50);
@@ -276,11 +322,6 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-
-    }
-
-    // Used for drawing
-    public void drawLetter(MouseEvent e) {
 
     }
 
