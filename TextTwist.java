@@ -212,8 +212,8 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             add(lastWordButton);
             add(clearButton);
 
-            // Draw where the letters we select go
-            // Words SHOULD NOT exceed 6 letters
+            // Draw where the boxes of the letters we select.
+            // Words SHOULD NOT exceed 6 letters.
             int boxSize = 60;
             int boxX = width / 2;
             int boxY = height / 5;
@@ -222,19 +222,28 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                 boxX += 60;
             }
 
+            // Draw the letters that were selected
+            boxX = width / 2;
+            for (int i = 0; i < selectedLetters.size(); i++) {
+                String letterSelected = selectedLetters.get(i).letter;
+                g.drawString(letterSelected, boxX + 20, boxY + 40);
+                boxX += 60;
+            }
+
             // Draw words that can be selected
             boxX = width / 2;
             boxY += 100;
 
+            // Draw the bubbles around each letter that can be selected
             for (int i = 0; i < letters.length; i++) {
-
-                // Draw the bubble around letter
                 g.drawArc(boxX, boxY, boxSize, boxSize, 0, 360);
+                boxX += 65;
+            }
 
-                // Adding what our current letter is to a array to keep track
-                // of position.
-                Rectangle r = new Rectangle(boxX, boxY, boxSize, boxSize);
-                lettersToSelect.add(new Letter(letters[i] + "", r));
+            // Draw the letter
+            boxX = width / 2;
+            for (int i = 0; i < lettersToSelect.size(); i++) {
+
                 g.drawString(lettersToSelect.get(i).letter, boxX + 20, boxY + 40);
                 boxX += 65;
             }
@@ -327,11 +336,21 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
                 ex.printStackTrace();
             } finally {
-                
+
                 // Get longest word
                 String temp = gameWords.get(0).toUpperCase();
                 letters = temp.toCharArray();
 
+                // Draw words that can be selected
+                int letterX = width / 2;
+                int letterY = (height / 5) + 100;
+                // Adding what our current letter is to a array to keep track
+                // of position.
+                for (int i = 0; i < letters.length; i++) {
+
+                    Rectangle r = new Rectangle(letterX, letterY, 45, 45);
+                    lettersToSelect.add(new Letter(letters[i] + "", r));
+                }
                 boardScanner.close();
                 currentState = GameState.values()[1];
                 this.repaint();
