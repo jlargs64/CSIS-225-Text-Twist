@@ -159,7 +159,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             int boxY = height/5;
             for(int i = 0; i < gameWords.get(0).length(); i++){
                 g.drawRect(boxX, boxY, boxSize, boxSize);
-                boxX += 65;
+                boxX += 60;
             }
 
             //Draw words that can be selected
