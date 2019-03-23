@@ -104,32 +104,39 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         helpButton.setBounds(450, 380, 300, 100);
 
         // The exit button goes back to main menu in this instance
+        int gameButtonX = (width / 2)-50;
+        int gameButtonY = height / 2;
+        int gameButtonWidth = 105;
+        int gameButtonHeight = 50;
         exitButton = new JButton("Back to Main Menu");
         exitButton.setVerticalTextPosition(AbstractButton.CENTER);
         exitButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        exitButton.setBounds(450, 380, 300, 100);
+        exitButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
 
         // Buttons for the game screen
         twistButton = new JButton("TWIST");
         twistButton.setVerticalTextPosition(AbstractButton.CENTER);
         twistButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        twistButton.setBounds(450, 380, 300, 100);
+        twistButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
+        gameButtonX += 110;
 
         enterButton = new JButton("ENTER");
         enterButton.setVerticalTextPosition(AbstractButton.CENTER);
         enterButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        enterButton.setBounds(450, 380, 300, 100);
+        enterButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
+        gameButtonX += 110;
 
         lastWordButton = new JButton("LAST WORD");
-        lastWordButton.setVerticalTextPosition(AbstractButton.CENTER);
+        lastWordButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         lastWordButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        lastWordButton.setBounds(450, 380, 300, 100);
+        lastWordButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
+        gameButtonX += 110;
 
         clearButton = new JButton("CLEAR");
         clearButton.setVerticalTextPosition(AbstractButton.CENTER);
         clearButton.setHorizontalTextPosition(AbstractButton.CENTER);
-        clearButton.setBounds(450, 380, 300, 100);
-
+        clearButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
+        
         // Add action listeners for checking if button is clicked
         buttonBoard1.addActionListener(this);
         buttonBoard2.addActionListener(this);
