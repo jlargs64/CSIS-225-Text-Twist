@@ -104,9 +104,9 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         helpButton.setBounds(450, 380, 300, 100);
 
         // The exit button goes back to main menu in this instance
-        int gameButtonX = (width / 2)-50;
+        int gameButtonX = (width / 2)-60;
         int gameButtonY = height / 2;
-        int gameButtonWidth = 105;
+        int gameButtonWidth = 110;
         int gameButtonHeight = 50;
         exitButton = new JButton("Back to Main Menu");
         exitButton.setVerticalTextPosition(AbstractButton.CENTER);
@@ -118,19 +118,19 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         twistButton.setVerticalTextPosition(AbstractButton.CENTER);
         twistButton.setHorizontalTextPosition(AbstractButton.CENTER);
         twistButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
-        gameButtonX += 110;
+        gameButtonX += 115;
 
         enterButton = new JButton("ENTER");
         enterButton.setVerticalTextPosition(AbstractButton.CENTER);
         enterButton.setHorizontalTextPosition(AbstractButton.CENTER);
         enterButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
-        gameButtonX += 110;
+        gameButtonX += 115;
 
         lastWordButton = new JButton("LAST WORD");
         lastWordButton.setVerticalTextPosition(AbstractButton.BOTTOM);
         lastWordButton.setHorizontalTextPosition(AbstractButton.CENTER);
         lastWordButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
-        gameButtonX += 110;
+        gameButtonX += 115;
 
         clearButton = new JButton("CLEAR");
         clearButton.setVerticalTextPosition(AbstractButton.CENTER);
