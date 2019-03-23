@@ -156,7 +156,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             //Words SHOULD NOT exceed 6 letters
             int boxSize = 60;
             int boxX = width/2;
-            int boxY = height/3;
+            int boxY = height/5;
             for(int i = 0; i < gameWords.get(0).length(); i++){
                 g.drawRect(boxX, boxY, boxSize, boxSize);
                 boxX += 65;
@@ -172,8 +172,10 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             
 
             // Draw are useful game text
-            g.drawString("SCORE: " + score, width - 200, height - 100);
-            g.drawString("TIME: ", width - 200, height - 150);
+            g.drawString("TIME: ", width - 400, height - 100);
+            g.drawString("SCORE: ", width - 400, height - 200);
+            g.drawString(score+"", width - 400, height - 150);
+            g.drawRect(width - 240, height - 200, 200, 110);
             break;
 
         case HELP_MENU:
