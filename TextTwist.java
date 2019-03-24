@@ -219,7 +219,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             int boxY = height / 5;
             for (int i = 0; i < letters.length; i++) {
                 g.drawRect(boxX, boxY, boxSize, boxSize);
-                boxX += 60;
+                boxX += 65;
             }
 
             // Draw the letters that were selected
@@ -227,7 +227,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             for (int i = 0; i < selectedLetters.size(); i++) {
                 String letterSelected = selectedLetters.get(i).letter;
                 g.drawString(letterSelected, boxX + 20, boxY + 40);
-                boxX += 60;
+                boxX += 65;
             }
 
             // Draw words that can be selected
@@ -249,7 +249,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                 Letter let = lettersToSelect.get(i);
                 int letX = let.letterBorder.x;
                 int letY = let.letterBorder.y;
-                g.drawString(let.letter, letX, letY);
+                g.drawString(let.letter, letX+20, letY+20);
                 boxX += 65;
             }
 
@@ -352,11 +352,12 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                 // Draw words that can be selected
                 int letterX = (width / 2) + 20;
                 int letterY = (height / 5) + 140;
+
                 // Adding what our current letter is to a array to keep track
                 // of position.
                 for (int i = 0; i < letters.length; i++) {
 
-                    Rectangle r = new Rectangle(letterX, letterY, 45, 45);
+                    Rectangle r = new Rectangle(letterX-20, letterY-20, 45, 45);
                     lettersToSelect.add(new Letter(letters[i] + "", r));
                     letterX += 65;
                 }
