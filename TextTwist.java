@@ -225,8 +225,12 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             // Draw the letters that were selected
             boxX = width / 2;
             for (int i = 0; i < selectedLetters.size(); i++) {
-                String letterSelected = selectedLetters.get(i).letter;
-                g.drawString(letterSelected, boxX + 20, boxY + 40);
+
+                Letter letterSelected = selectedLetters.get(i);
+                letterSelected.letterBorder.x = boxX;
+                int x = letterSelected.letterBorder.x + 20;
+                int y = letterSelected.letterBorder.y + 20;
+                g.drawString(letterSelected.letter, x, y);
                 boxX += 65;
             }
 
@@ -236,6 +240,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
             // Draw the bubbles around each letter that can be selected
             for (int i = 0; i < letters.length; i++) {
+
                 g.drawArc(boxX, boxY, boxSize, boxSize, 0, 360);
                 boxX += 65;
             }
@@ -244,12 +249,11 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             boxX = width / 2;
             for (int i = 0; i < lettersToSelect.size(); i++) {
 
-                // let represents the letter being represented
-                // It is named let so that each line is not greater than 80 char.
-                Letter let = lettersToSelect.get(i);
-                int letX = let.letterBorder.x;
-                int letY = let.letterBorder.y;
-                g.drawString(let.letter, letX+20, letY+20);
+                Letter letterSelected = lettersToSelect.get(i);
+                letterSelected.letterBorder.x = boxX;
+                int x = letterSelected.letterBorder.x + 20;
+                int y = letterSelected.letterBorder.y + 20;
+                g.drawString(letterSelected.letter, x, y);
                 boxX += 65;
             }
 
@@ -357,7 +361,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                 // of position.
                 for (int i = 0; i < letters.length; i++) {
 
-                    Rectangle r = new Rectangle(letterX-20, letterY-20, 45, 45);
+                    Rectangle r = new Rectangle(letterX - 20, letterY - 20, 45, 45);
                     lettersToSelect.add(new Letter(letters[i] + "", r));
                     letterX += 65;
                 }
@@ -383,10 +387,12 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         for (int i = 0; i < lettersToSelect.size(); i++) {
 
             Letter clickedLetter = lettersToSelect.get(i);
+
             // If the point clicked is on the letters border
             // add it to selectedLetters
             if (clickedLetter.letterBorder.contains(pointClicked)) {
 
+                clickedLetter.letterBorder.y -= 100;
                 selectedLetters.add(clickedLetter);
 
                 // Check if out of bounds
@@ -395,7 +401,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
                         lettersToSelect.get(j).letterBorder.x -= 65;
                     }
-                }else{
+                } else {
                     for (int j = 1; j < lettersToSelect.size(); j++) {
 
                         lettersToSelect.get(j).letterBorder.x -= 65;
@@ -411,19 +417,20 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             }
         }
 
-        /*
-         * // Check to see if a selected letter has been clicked for (int i = 0; i <
-         * selectedLetters.size(); i++) {
-         * 
-         * Letter clickedLetter = selectedLetters.get(i); // If the point clicked is on
-         * the letters border // add it to selectedLetters if
-         * (clickedLetter.letterBorder.contains(pointClicked)) {
-         * 
-         * lettersToSelect.add(clickedLetter); selectedLetters.remove(i);
-         * 
-         * // Stop checking since we have found the letter e.consume(); repaint();
-         * break; } }
-         */
+        // If the player clicks the last entered letter
+        if (selectedLetters.size() - 1 != -1) {
+
+            Letter selectedLet = selectedLetters.get(selectedLetters.size() - 1);
+            if (selectedLet.letterBorder.contains(pointClicked)) {
+
+                selectedLet.letterBorder.y += 100;
+                lettersToSelect.add(selectedLet);
+                selectedLetters.remove(selectedLetters.size() - 1);
+                // Stop checking since we have found the letter
+                e.consume();
+                repaint();
+            }
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
