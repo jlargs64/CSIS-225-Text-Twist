@@ -177,6 +177,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         g.setColor(Color.WHITE);
         g.drawString("Text Twist", width - 165, 50);
 
+        // The state manager
         switch (currentState) {
 
         case MAIN_MENU:
@@ -366,7 +367,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                     letterX += 65;
                 }
 
-                //Switch the game state to game menu
+                // Switch the game state to game menu
                 currentState = GameState.values()[1];
                 this.repaint();
             }
