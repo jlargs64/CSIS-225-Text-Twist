@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.io.File;
 import java.awt.*;
@@ -177,6 +178,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         g.setColor(Color.WHITE);
         g.drawString("Text Twist", width - 165, 50);
 
+        // The state manager
         switch (currentState) {
 
         case MAIN_MENU:
@@ -296,6 +298,13 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 
+        // Twist button
+        if(e.getSource().equals(twistButton)){
+
+            Collections.shuffle(lettersToSelect);
+            repaint();
+        }
+
         // Enter the help screen
         if (e.getSource().equals(helpButton)) {
 
@@ -366,7 +375,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                     letterX += 65;
                 }
 
-                //Switch the game state to game menu
+                // Switch the game state to game menu
                 currentState = GameState.values()[1];
                 this.repaint();
             }
