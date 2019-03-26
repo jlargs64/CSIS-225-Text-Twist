@@ -366,6 +366,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                     letterX += 65;
                 }
 
+                //Switch the game state to game menu
                 currentState = GameState.values()[1];
                 this.repaint();
             }
