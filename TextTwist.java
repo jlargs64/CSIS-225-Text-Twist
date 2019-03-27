@@ -269,7 +269,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         case HELP_MENU:
 
             // Enable buttons
-            exitButton.setBounds(width/2, height - 200, 150, 75);
+            exitButton.setBounds(width / 2, height - 200, 150, 75);
             add(exitButton);
 
             // Disable buttons
@@ -314,6 +314,22 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                 lettersToSelect.add(selectedLetters.get(0));
                 selectedLetters.remove(0);
             }
+            this.repaint();
+            return;
+        }
+
+        // lastword button
+        else if (e.getSource().equals(lastWordButton)) {
+
+            // Does nothing at the moment
+            this.repaint();
+            return;
+        }
+
+        // Enter button
+        else if (e.getSource().equals(enterButton)) {
+
+            // Does nothing at the moment
             this.repaint();
             return;
         }
