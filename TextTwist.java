@@ -33,8 +33,8 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
     private static final long serialVersionUID = 9136266265671208067L;
     private int width, height;
     private ArrayList<String> gameWords = new ArrayList<>();
-    private ArrayList<Letter> lettersToSelect = new ArrayList<>();
-    private ArrayList<Letter> selectedLetters = new ArrayList<>();
+    private static ArrayList<Letter> lettersToSelect = new ArrayList<>();
+    private static ArrayList<Letter> selectedLetters = new ArrayList<>();
     char[] letters;
     private File board1, board2, board3, board4;
     private JButton buttonBoard1, buttonBoard2, buttonBoard3, buttonBoard4;
@@ -269,6 +269,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         case HELP_MENU:
 
             // Enable buttons
+            exitButton.setBounds(width/2, height - 200, 150, 75);
             add(exitButton);
 
             // Disable buttons
@@ -299,18 +300,31 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         // Twist button
-        if(e.getSource().equals(twistButton)){
+        if (e.getSource().equals(twistButton)) {
 
             Collections.shuffle(lettersToSelect);
-            repaint();
+            this.repaint();
+            return;
+        }
+
+        // Clear button
+        else if (e.getSource().equals(clearButton)) {
+
+            while (selectedLetters.size() > 0) {
+                lettersToSelect.add(selectedLetters.get(0));
+                selectedLetters.remove(0);
+            }
+            this.repaint();
+            return;
         }
 
         // Enter the help screen
-        if (e.getSource().equals(helpButton)) {
+        else if (e.getSource().equals(helpButton)) {
 
             // Set the state to Help screen
             currentState = GameState.values()[2];
             this.repaint();
+            return;
         }
 
         // Go back to main menu from help screen
@@ -319,66 +333,67 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             // Set the state to main screen
             currentState = GameState.values()[0];
             this.repaint();
-        } else {
-            // Game button
-            try {
+            return;
+        }
 
-                // Selecting which gameboard to play with then read in words
-                // from a file for the selected board.
-                if (e.getSource().equals(buttonBoard1)) {
+        // Game buttons
+        try {
 
-                    boardScanner = new Scanner(board1);
-                    while (boardScanner.hasNext()) {
-                        gameWords.add(boardScanner.nextLine());
-                    }
-                } else if (e.getSource().equals(buttonBoard2)) {
+            // Selecting which gameboard to play with then read in words
+            // from a file for the selected board.
+            if (e.getSource().equals(buttonBoard1)) {
 
-                    boardScanner = new Scanner(board2);
-                    while (boardScanner.hasNext()) {
-                        gameWords.add(boardScanner.nextLine());
-                    }
-                } else if (e.getSource().equals(buttonBoard3)) {
-
-                    boardScanner = new Scanner(board3);
-                    while (boardScanner.hasNext()) {
-                        gameWords.add(boardScanner.nextLine());
-                    }
-                } else if (e.getSource().equals(buttonBoard4)) {
-
-                    boardScanner = new Scanner(board4);
-                    while (boardScanner.hasNext()) {
-                        gameWords.add(boardScanner.nextLine());
-                    }
+                boardScanner = new Scanner(board1);
+                while (boardScanner.hasNext()) {
+                    gameWords.add(boardScanner.nextLine());
                 }
-            } catch (Exception ex) {
+            } else if (e.getSource().equals(buttonBoard2)) {
 
-                ex.printStackTrace();
-            } finally {
-
-                // Close the scanner
-                boardScanner.close();
-
-                // Get longest word
-                String temp = gameWords.get(0).toUpperCase();
-                letters = temp.toCharArray();
-
-                // Draw words that can be selected
-                int letterX = (width / 2) + 20;
-                int letterY = (height / 5) + 140;
-
-                // Adding what our current letter is to a array to keep track
-                // of position.
-                for (int i = 0; i < letters.length; i++) {
-
-                    Rectangle r = new Rectangle(letterX - 20, letterY - 20, 45, 45);
-                    lettersToSelect.add(new Letter(letters[i] + "", r));
-                    letterX += 65;
+                boardScanner = new Scanner(board2);
+                while (boardScanner.hasNext()) {
+                    gameWords.add(boardScanner.nextLine());
                 }
+            } else if (e.getSource().equals(buttonBoard3)) {
 
-                // Switch the game state to game menu
-                currentState = GameState.values()[1];
-                this.repaint();
+                boardScanner = new Scanner(board3);
+                while (boardScanner.hasNext()) {
+                    gameWords.add(boardScanner.nextLine());
+                }
+            } else if (e.getSource().equals(buttonBoard4)) {
+
+                boardScanner = new Scanner(board4);
+                while (boardScanner.hasNext()) {
+                    gameWords.add(boardScanner.nextLine());
+                }
             }
+
+            // Get longest word
+            String temp = gameWords.get(0).toUpperCase();
+            letters = temp.toCharArray();
+
+            // Draw words that can be selected
+            int letterX = (width / 2) + 20;
+            int letterY = (height / 5) + 140;
+
+            // Adding what our current letter is to a array to keep track
+            // of position.
+            for (int i = 0; i < letters.length; i++) {
+
+                Rectangle r = new Rectangle(letterX - 20, letterY - 20, 45, 45);
+                lettersToSelect.add(new Letter(letters[i] + "", r));
+                letterX += 65;
+            }
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        } finally {
+
+            // Close the scanner
+            boardScanner.close();
+
+            // Switch the game state to game menu
+            currentState = GameState.values()[1];
+            this.repaint();
         }
     }
 
