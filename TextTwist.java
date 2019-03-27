@@ -220,6 +220,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             int boxX = width / 2;
             int boxY = height / 5;
             for (int i = 0; i < letters.length; i++) {
+
                 g.drawRect(boxX, boxY, boxSize, boxSize);
                 boxX += 65;
             }
@@ -230,8 +231,9 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
                 Letter letterSelected = selectedLetters.get(i);
                 letterSelected.letterBorder.x = boxX;
+                letterSelected.letterBorder.y = boxY;
                 int x = letterSelected.letterBorder.x + 20;
-                int y = letterSelected.letterBorder.y + 20;
+                int y = letterSelected.letterBorder.y + 40;
                 g.drawString(letterSelected.letter, x, y);
                 boxX += 65;
             }
@@ -253,8 +255,9 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
                 Letter letterSelected = lettersToSelect.get(i);
                 letterSelected.letterBorder.x = boxX;
+                letterSelected.letterBorder.y = boxY;
                 int x = letterSelected.letterBorder.x + 20;
-                int y = letterSelected.letterBorder.y + 20;
+                int y = letterSelected.letterBorder.y + 40;
                 g.drawString(letterSelected.letter, x, y);
                 boxX += 65;
             }
