@@ -27,15 +27,21 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             this.letter = letter;
             this.letterBorder = letterBorder;
         }
+
+        public Letter(String letter) {
+            this.letter = letter;
+        }
     }
 
     // Instance Variables
     private static final long serialVersionUID = 9136266265671208067L;
     private int width, height;
     private ArrayList<String> gameWords = new ArrayList<>();
+    private static ArrayList<String> foundWords = new ArrayList<>();
     private static ArrayList<Letter> lettersToSelect = new ArrayList<>();
     private static ArrayList<Letter> selectedLetters = new ArrayList<>();
-    char[] letters;
+    private String helpMessage = new String("");
+    private char[] letters;
     private File board1, board2, board3, board4;
     private JButton buttonBoard1, buttonBoard2, buttonBoard3, buttonBoard4;
     private JButton helpButton, exitButton;
@@ -266,7 +272,12 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             g.drawString("TIME: ", width - 400, height - 100);
             g.drawString("SCORE: ", width - 400, height - 200);
             g.drawString(score + "", width - 400, height - 150);
+
+            // Draw the help box
+            Font helpFont = new Font("Monospace", Font.BOLD, 24);
+            g.setFont(helpFont);
             g.drawRect(width - 240, height - 200, 200, 110);
+            g.drawString(helpMessage, width - 240, height - 130);
             break;
 
         case HELP_MENU:
@@ -325,6 +336,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         else if (e.getSource().equals(lastWordButton)) {
 
             // Does nothing at the moment
+
             this.repaint();
             return;
         }
@@ -332,7 +344,51 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         // Enter button
         else if (e.getSource().equals(enterButton)) {
 
-            // Does nothing at the moment
+            // Append our selected Letter objects to a string
+            String enteredWord = "";
+            for (int i = 0; i < selectedLetters.size(); i++) {
+
+                enteredWord += selectedLetters.get(i).letter;
+            }
+
+            // Compare the words with our gameboard words
+            for (int i = 0; i < gameWords.size(); i++) {
+
+                if (enteredWord.equalsIgnoreCase(gameWords.get(i))) {
+
+                    // Remove the possible words and add to found words
+                    gameWords.remove(i);
+                    foundWords.add(enteredWord);
+
+                    // Set the help message to
+                    helpMessage = "Word Found!";
+
+                    // Score the word accoridng to length
+                    if (enteredWord.length() == 3) {
+                        score = score + 90;
+                    } else if (enteredWord.length() == 4) {
+                        score = score + 180;
+                    } else if (enteredWord.length() == 5) {
+                        score = score + 250;
+                    } else if (enteredWord.length() == 6) {
+                        score = score + 360;
+                    }
+
+                    // Move the selected letters into letters to select
+                    while (selectedLetters.size() > 0) {
+
+                        lettersToSelect.add(selectedLetters.get(0));
+                        selectedLetters.remove(0);
+                    }
+                    Collections.shuffle(lettersToSelect);
+
+                    this.repaint();
+                    return;
+                }
+            }
+
+            // The word hasn't been found
+            helpMessage = "Word not found!";
             this.repaint();
             return;
         }
@@ -409,6 +465,9 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
             // Close the scanner
             boardScanner.close();
+
+            // Shuffle the words
+            Collections.shuffle(lettersToSelect);
 
             // Switch the game state to game menu
             currentState = GameState.values()[1];
