@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -5,6 +6,8 @@ import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A java implementation of Text Twist
@@ -27,8 +30,9 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             this.letter = letter;
             this.letterBorder = letterBorder;
         }
+      
+        public Letter(String letter){
 
-        public Letter(String letter) {
             this.letter = letter;
         }
     }
@@ -42,12 +46,14 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
     private static ArrayList<Letter> selectedLetters = new ArrayList<>();
     private String helpMessage = new String("");
     private char[] letters;
+
     private File board1, board2, board3, board4;
     private JButton buttonBoard1, buttonBoard2, buttonBoard3, buttonBoard4;
     private JButton helpButton, exitButton;
     private JButton twistButton, enterButton, lastWordButton, clearButton;
     private Scanner boardScanner;
     private int score;
+    private static int timeLeft;
 
     // Managing the game state
     public enum GameState {
@@ -187,7 +193,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         // The state manager
         switch (currentState) {
 
-        case MAIN_MENU:
+            case MAIN_MENU:
 
             // Enable buttons
             add(buttonBoard1);
@@ -204,7 +210,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             remove(clearButton);
             break;
 
-        case GAME_MENU:
+            case GAME_MENU:
 
             // Disable buttons
             remove(buttonBoard1);
@@ -280,7 +286,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             g.drawString(helpMessage, width - 240, height - 130);
             break;
 
-        case HELP_MENU:
+            case HELP_MENU:
 
             // Enable buttons
             exitButton.setBounds(width / 2, height - 200, 150, 75);
@@ -310,6 +316,40 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             break;
         }
     }
+
+    // public static void timer(){
+    // Timer timer = new Timer();
+    // timeLeft = 120; //2 minutes
+    // timer.schedule(new TimerTask() {
+    // @Override
+    // public void run(){
+    // timeLeft--;
+    // if(timeLeft == 0){
+    // timer.cancel();//terminates the timer
+    // }
+    // System.out.println(timeLeft); //print the time left
+    // }
+
+    // }, 0, 1000);
+    // }
+
+    // private static final int setInterval(){
+
+    // }
+
+    // public static void timer(){
+    // timeLeft = 120;
+    // Timer timer = new Timer(500, new ActionListener()){
+    // public void actionPerformed(ActionEvent e){
+    // timeLeft--;
+    // if(timeLeft > 0){
+    // panel.setText(Integer.toString(timeLeft));
+    // }
+    // }
+
+    // };
+
+    // }
 
     public void actionPerformed(ActionEvent e) {
 
@@ -343,7 +383,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
         // Enter button
         else if (e.getSource().equals(enterButton)) {
-
+          
             // Append our selected Letter objects to a string
             String enteredWord = "";
             for (int i = 0; i < selectedLetters.size(); i++) {
@@ -417,7 +457,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             // Selecting which gameboard to play with then read in words
             // from a file for the selected board.
             if (e.getSource().equals(buttonBoard1)) {
-
+                
                 boardScanner = new Scanner(board1);
                 while (boardScanner.hasNext()) {
                     gameWords.add(boardScanner.nextLine());
@@ -546,20 +586,20 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
     public static void main(String[] args) {
 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                // Create and set up the window.
-                JFrame frame = new JFrame("Text Twist");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                public void run() {
+                    // Create and set up the window.
+                    JFrame frame = new JFrame("Text Twist");
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                TextTwist panel = new TextTwist();
-                frame.getContentPane().add(panel);
+                    TextTwist panel = new TextTwist();
+                    frame.getContentPane().add(panel);
 
-                // Making sure the game scales well
-                frame.setResizable(false);
-                // Display the window.
-                frame.pack();
-                frame.setVisible(true);
-            }
-        });
+                    // Making sure the game scales well
+                    frame.setResizable(false);
+                    // Display the window.
+                    frame.pack();
+                    frame.setVisible(true);
+                }
+            });
     }
 }
