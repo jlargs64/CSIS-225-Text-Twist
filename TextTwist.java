@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -6,8 +5,6 @@ import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A java implementation of Text Twist
@@ -30,11 +27,6 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             this.letter = letter;
             this.letterBorder = letterBorder;
         }
-      
-        public Letter(String letter){
-
-            this.letter = letter;
-        }
     }
 
     // Instance Variables
@@ -46,14 +38,12 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
     private static ArrayList<Letter> selectedLetters = new ArrayList<>();
     private String helpMessage = new String("");
     private char[] letters;
-
     private File board1, board2, board3, board4;
     private JButton buttonBoard1, buttonBoard2, buttonBoard3, buttonBoard4;
     private JButton helpButton, exitButton;
     private JButton twistButton, enterButton, lastWordButton, clearButton;
     private Scanner boardScanner;
     private int score;
-    private static int timeLeft;
 
     // Managing the game state
     public enum GameState {
@@ -62,6 +52,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
     private GameState currentState;
 
+    //The constructor for Text Twist
     public TextTwist() {
 
         setPreferredSize(new Dimension(800, 600));
@@ -317,46 +308,13 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         }
     }
 
-    // public static void timer(){
-    // Timer timer = new Timer();
-    // timeLeft = 120; //2 minutes
-    // timer.schedule(new TimerTask() {
-    // @Override
-    // public void run(){
-    // timeLeft--;
-    // if(timeLeft == 0){
-    // timer.cancel();//terminates the timer
-    // }
-    // System.out.println(timeLeft); //print the time left
-    // }
-
-    // }, 0, 1000);
-    // }
-
-    // private static final int setInterval(){
-
-    // }
-
-    // public static void timer(){
-    // timeLeft = 120;
-    // Timer timer = new Timer(500, new ActionListener()){
-    // public void actionPerformed(ActionEvent e){
-    // timeLeft--;
-    // if(timeLeft > 0){
-    // panel.setText(Integer.toString(timeLeft));
-    // }
-    // }
-
-    // };
-
-    // }
-
     public void actionPerformed(ActionEvent e) {
 
         // Twist button
         if (e.getSource().equals(twistButton)) {
 
             Collections.shuffle(lettersToSelect);
+            helpMessage = "Twisted!";
             this.repaint();
             return;
         }
@@ -368,6 +326,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                 lettersToSelect.add(selectedLetters.get(0));
                 selectedLetters.remove(0);
             }
+            helpMessage = "Cleared!";
             this.repaint();
             return;
         }
@@ -377,6 +336,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
             // Does nothing at the moment
 
+            helpMessage = "";
             this.repaint();
             return;
         }
