@@ -219,14 +219,13 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
 				// Draw the letters that were selected
 				boxX = width / 2;
-				for (int i = 0; i < selectedLetters.size(); i++) {
+				for (Letter letter : selectedLetters) {
 
-					Letter letterSelected = selectedLetters.get(i);
-					letterSelected.letterBorder.x = boxX;
-					letterSelected.letterBorder.y = boxY;
-					int x = letterSelected.letterBorder.x + 20;
-					int y = letterSelected.letterBorder.y + 40;
-					g.drawString(letterSelected.letter, x, y);
+					letter.letterBorder.x = boxX;
+					letter.letterBorder.y = boxY;
+					int x = letter.letterBorder.x + 20;
+					int y = letter.letterBorder.y + 40;
+					g.drawString(letter.letter, x, y);
 					boxX += 65;
 				}
 
@@ -243,14 +242,13 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
 				// Draw the letter
 				boxX = width / 2;
-				for (int i = 0; i < lettersToSelect.size(); i++) {
+				for (Letter letter : lettersToSelect) {
 
-					Letter letterSelected = lettersToSelect.get(i);
-					letterSelected.letterBorder.x = boxX;
-					letterSelected.letterBorder.y = boxY;
-					int x = letterSelected.letterBorder.x + 20;
-					int y = letterSelected.letterBorder.y + 40;
-					g.drawString(letterSelected.letter, x, y);
+					letter.letterBorder.x = boxX;
+					letter.letterBorder.y = boxY;
+					int x = letter.letterBorder.x + 20;
+					int y = letter.letterBorder.y + 40;
+					g.drawString(letter.letter, x, y);
 					boxX += 65;
 				}
 
@@ -362,9 +360,10 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
 			// Append our selected Letter objects to a string
 			String enteredWord = "";
-			for (int i = 0; i < selectedLetters.size(); i++) {
+			for (Letter l : selectedLetters) {
 
-				enteredWord += selectedLetters.get(i).letter;
+				//Add the current letter value t
+				enteredWord += l.letter;
 			}
 
 			// Compare the words with our gameboard words
