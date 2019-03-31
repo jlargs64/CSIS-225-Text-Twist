@@ -47,6 +47,8 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 	private Scanner boardScanner;
 	private int score;
 	private String lastWordEntered = "";
+	private int timerMin = 2;
+	private int timerSeconds = 30;
 
 	// Managing the game state
 	public enum GameState {
@@ -62,7 +64,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 		setOpaque(true);
 		width = getPreferredSize().width;
 		height = getPreferredSize().height;
-		setBackground(Color.BLACK);
+		setBackground(new Color(65,218,249));
 		setFocusable(true);
 		setLayout(null);
 
@@ -164,11 +166,27 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		// Create title text
-		Font titleFont = new Font("Monospace", Font.BOLD, 32);
+		// Create title text font
+		Font titleFont = new Font("Monospace", Font.BOLD, 100);
 		g.setFont(titleFont);
+
+		//Draw the border
+		Graphics2D g2d = (Graphics2D)g;
+		g2d.setStroke(new BasicStroke(4));
+		g2d.setColor(new Color(158,255,0));
+		g2d.drawRect(5,5, width - 10, height-10);
+
+		//Draw the title text
 		g.setColor(Color.WHITE);
-		g.drawString("Text Twist", width - 165, 50);
+		g.drawString("T", width - 210, 100);
+		titleFont = new Font("Monospace", Font.BOLD, 50);
+		g.setFont(titleFont);
+		g.drawString("ext", width-150, 60);
+		g.drawString("wist", width-153, 100);
+
+		//Font for everything else
+		Font normalFont = new Font("Monospace", Font.BOLD, 32);
+		g.setFont(normalFont);
 
 		// The state manager
 		switch (currentState) {
@@ -254,6 +272,8 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
 				// Draw are useful game text
 				g.drawString("TIME: ", width - 400, height - 100);
+				String displayTime = timerMin + ":" + timerSeconds;
+				g.drawString(displayTime, width - 400, height - 50);
 				g.drawString("SCORE: ", width - 400, height - 200);
 				g.drawString(score + "", width - 400, height - 150);
 
