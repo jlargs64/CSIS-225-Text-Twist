@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import static javax.swing.SwingUtilities.invokeLater;
+
 /**
  * A java implementation of Text Twist
  *
@@ -318,7 +320,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 			return;
 		}
 
-		// lastword button
+		// lastWord button
 		else if (e.getSource().equals(lastWordButton)) {
 
 			if (lastWordEntered.equals("")) {
@@ -394,14 +396,25 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 						lettersToSelect.add(selectedLetters.get(0));
 						selectedLetters.remove(0);
 					}
-					Collections.shuffle(lettersToSelect);
 
+					//Randomly move the letters around
+					Collections.shuffle(lettersToSelect);
+					//Update last word entered
 					lastWordEntered = enteredWord;
+
+					this.repaint();
+					return;
+				}
+				else if(foundWords.contains(enteredWord)){
+
+					//Update help message
+					helpMessage = "Already found!";
 					this.repaint();
 					return;
 				}
 			}
-
+			//Update last word entered
+			lastWordEntered = enteredWord;
 			// The word hasn't been found
 			helpMessage = "Word not found!";
 			this.repaint();
@@ -467,10 +480,10 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
 			// Adding what our current letter is to a array to keep track
 			// of position.
-			for (int i = 0; i < letters.length; i++) {
+			for (char letter : letters) {
 
 				Rectangle r = new Rectangle(letterX - 20, letterY - 20, 45, 45);
-				lettersToSelect.add(new Letter(letters[i] + "", r));
+				lettersToSelect.add(new Letter(letter + "", r));
 				letterX += 65;
 			}
 		} catch (Exception ex) {
@@ -564,7 +577,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 	 * */
 	public static void main(String[] args) {
 
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		invokeLater(new Runnable() {
 			public void run() {
 				// Create and set up the window.
 				JFrame frame = new JFrame("Text Twist");
