@@ -36,7 +36,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 	private static ArrayList<String> foundWords = new ArrayList<>();
 	private static ArrayList<Letter> lettersToSelect = new ArrayList<>();
 	private static ArrayList<Letter> selectedLetters = new ArrayList<>();
-	private String helpMessage = new String("");
+	private String helpMessage = "";
 	private char[] letters;
 	private File board1, board2, board3, board4;
 	private JButton buttonBoard1, buttonBoard2, buttonBoard3, buttonBoard4;
@@ -48,7 +48,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
 	// Managing the game state
 	public enum GameState {
-		MAIN_MENU, GAME_MENU, HELP_MENU;
+		MAIN_MENU, GAME_MENU, HELP_MENU
 	}
 
 	private GameState currentState;
@@ -377,7 +377,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 					// Set the help message to
 					helpMessage = "Word Found!";
 
-					// Score the word accoridng to length
+					// Score the word according to length
 					if (enteredWord.length() == 3) {
 						score = score + 90;
 					} else if (enteredWord.length() == 4) {
@@ -558,6 +558,10 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
 	}
 
+	/**
+	 * The main method to execute the program.
+	 * @param args command line arguements
+	 * */
 	public static void main(String[] args) {
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
