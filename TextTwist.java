@@ -419,14 +419,20 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             for (int i = 0; i < lastWordEntered.length(); i++) {
 
                 String letterToCompare = lastWordEntered.charAt(i) + "";
+
+                //Try to compare each letter that we can select and add
+                //it to selected if there's a match
                 for (int j = 0; j < lettersToSelect.size(); j++) {
 
                     String letterToAdd = lettersToSelect.get(j).letter;
+                    //Stop comparing if we added all the letters needed.
                     if(selectedLetters.size() == lastWordEntered.length()){
                         break;
                     }
                     if (letterToCompare.equalsIgnoreCase(letterToAdd)) {
 
+                        // Add the letter to selected and remove from
+                        // letters to select.
                         selectedLetters.add(lettersToSelect.get(j));
                         lettersToSelect.remove(j);
                     }
