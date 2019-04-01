@@ -315,7 +315,8 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                 for (int j = 0; j< gameWords.get(i).length(); j++){
                     g.drawRect(leftBoxX, leftBoxY, 40, 40);
                     if (foundWords.contains(gameWords.get(i))){
-                        g.drawString(gameWords.get(i), leftBoxX, leftBoxY);
+                    	String letter = gameWords.get(i).charAt(j)+"";
+                        g.drawString(letter, leftBoxX, leftBoxY);
                     }
                     leftBoxX+=45;
                 }
@@ -444,17 +445,17 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                 //Add the current letter value t
                 enteredWord += l.letter;
             }
+			enteredWord = enteredWord.toLowerCase();
+	        if (foundWords.contains(enteredWord)) {
 
+		        //Update help message
+		        helpMessage = "Already found!";
+		        this.repaint();
+		        return;
+	        }
             // Compare the words with our gameboard words
             for (int i = 0; i < gameWords.size(); i++) {
-                if (foundWords.contains(enteredWord)) {
-
-                    //Update help message
-                    helpMessage = "Already found!";
-                    this.repaint();
-                    return;
-                }
-                else if (enteredWord.equalsIgnoreCase(gameWords.get(i))) {
+                 if (enteredWord.equalsIgnoreCase(gameWords.get(i))) {
 
                     // Remove the possible words and add to found words and left hand words
                     
