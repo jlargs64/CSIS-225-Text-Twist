@@ -22,11 +22,11 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
     // Instance Variables
     private static final long serialVersionUID = 9136266265671208067L;
-    private static ArrayList<String> foundWords = new ArrayList<>();
-    private static ArrayList<Letter> lettersToSelect = new ArrayList<>();
-    private static ArrayList<Letter> selectedLetters = new ArrayList<>();
+    private ArrayList<String> gameWords;
+    private static ArrayList<String> foundWords;
+    private static ArrayList<Letter> lettersToSelect;
+    private static ArrayList<Letter> selectedLetters;
     private int width, height;
-    private ArrayList<String> gameWords = new ArrayList<>();
     private String helpMessage = "";
     private char[] letters;
     private File board1, board2, board3, board4;
@@ -182,7 +182,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
         //Game over!
         if (minutes == 0 && seconds == 0) {
-            String message = "Main Menu";
+            String message = "Game Over! Back to main Menu?";
             JOptionPane.showMessageDialog(this, message);
             // Switch the game state to main menu
             currentState = GameState.values()[0];
@@ -422,6 +422,9 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                 for (int j = 0; j < lettersToSelect.size(); j++) {
 
                     String letterToAdd = lettersToSelect.get(j).letter;
+                    if(selectedLetters.size() == lastWordEntered.length()){
+                        break;
+                    }
                     if (letterToCompare.equalsIgnoreCase(letterToAdd)) {
 
                         selectedLetters.add(lettersToSelect.get(j));
@@ -455,9 +458,11 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 	        }
             // Compare the words with our gameboard words
             for (int i = 0; i < gameWords.size(); i++) {
+
                  if (enteredWord.equalsIgnoreCase(gameWords.get(i))) {
 
-                    // Remove the possible words and add to found words and left hand words
+                    // Remove the possible words and add to
+                     // found words and left hand words.
                     
                     foundWords.add(enteredWord);
 
@@ -476,7 +481,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                     }
 
                     //Check to see if the user has found all the words
-                    if (gameWords.size() == 0) {
+                    if (foundWords.size() == gameWords.size()) {
 
                         //You win!
                         String message = "You win! Go back?";
@@ -535,6 +540,9 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
         // Game buttons
         try {
 
+            //Construct our game words array list
+            gameWords = new ArrayList<>();
+
             // Selecting which gameboard to play with then read in words
             // from a file for the selected board.
             if (e.getSource().equals(buttonBoard1)) {
@@ -571,6 +579,10 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
             int letterX = (width / 2) + 20;
             int letterY = (height / 5) + 140;
 
+            // Create our arraylist for letters to select from
+            selectedLetters = new ArrayList<>();
+            lettersToSelect = new ArrayList<>();
+
             // Adding what our current letter is to a array to keep track
             // of position.
             for (char letter : letters) {
@@ -589,6 +601,9 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
             // Shuffle the words
             Collections.shuffle(lettersToSelect);
+
+            //Create the found words array list
+            foundWords = new ArrayList<>();
 
             //Set up the timer
             new Timer(1000, new ActionListener() {
