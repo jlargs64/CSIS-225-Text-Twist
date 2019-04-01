@@ -316,7 +316,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                     g.drawRect(leftBoxX, leftBoxY, 40, 40);
                     if (foundWords.contains(gameWords.get(i))){
                     	String letter = gameWords.get(i).charAt(j)+"";
-                        g.drawString(letter, leftBoxX, leftBoxY);
+                        g.drawString(letter, leftBoxX+11, leftBoxY+32);
                     }
                     leftBoxX+=45;
                 }
