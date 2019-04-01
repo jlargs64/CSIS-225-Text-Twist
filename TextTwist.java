@@ -1,10 +1,13 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.io.File;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
 
 import static javax.swing.SwingUtilities.invokeLater;
 
@@ -17,27 +20,13 @@ import static javax.swing.SwingUtilities.invokeLater;
  */
 public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
-	// Private Letter Class
-	private class Letter {
-
-		// Instance variables
-		protected String letter;
-		protected Rectangle letterBorder;
-
-		public Letter(String letter, Rectangle letterBorder) {
-
-			this.letter = letter;
-			this.letterBorder = letterBorder;
-		}
-	}
-
 	// Instance Variables
 	private static final long serialVersionUID = 9136266265671208067L;
-	private int width, height;
-	private ArrayList<String> gameWords = new ArrayList<>();
 	private static ArrayList<String> foundWords = new ArrayList<>();
 	private static ArrayList<Letter> lettersToSelect = new ArrayList<>();
 	private static ArrayList<Letter> selectedLetters = new ArrayList<>();
+	private int width, height;
+	private ArrayList<String> gameWords = new ArrayList<>();
 	private String helpMessage = "";
 	private char[] letters;
 	private File board1, board2, board3, board4;
@@ -47,24 +36,22 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 	private Scanner boardScanner;
 	private int score;
 	private String lastWordEntered = "";
-	private int timerMin = 2;
-	private int timerSeconds = 30;
+	private Timer timer;
+	private int minutes = 2;
+	private int seconds = 30;
 
-	// Managing the game state
-	public enum GameState {
-		MAIN_MENU, GAME_MENU, HELP_MENU
-	}
-
+	//Keeping track of the game state
 	private GameState currentState;
 
 	//The constructor for Text Twist
 	public TextTwist() {
 
+		//Default window settings
 		setPreferredSize(new Dimension(800, 600));
 		setOpaque(true);
 		width = getPreferredSize().width;
 		height = getPreferredSize().height;
-		setBackground(new Color(65,218,249));
+		setBackground(new Color(65, 218, 249));
 		setFocusable(true);
 		setLayout(null);
 
@@ -149,7 +136,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 		clearButton.setHorizontalTextPosition(AbstractButton.CENTER);
 		clearButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
 
-		// Add action listeners for checking if button is clicked
+		// Add action listeners for checking if a button is clicked
 		buttonBoard1.addActionListener(this);
 		buttonBoard2.addActionListener(this);
 		buttonBoard3.addActionListener(this);
@@ -162,6 +149,57 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 		clearButton.addActionListener(this);
 	}
 
+	/**
+	 * The main method to execute the program.
+	 *
+	 * @param args command line arguements
+	 */
+	public static void main(String[] args) {
+
+		invokeLater(new Runnable() {
+			public void run() {
+				// Create and set up the window.
+				JFrame frame = new JFrame("Text Twist");
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+				TextTwist panel = new TextTwist();
+				frame.getContentPane().add(panel);
+
+				// Making sure the game scales well
+				frame.setResizable(false);
+				// Display the window.
+				frame.pack();
+				frame.setVisible(true);
+			}
+		});
+	}
+
+	/**
+	 * This method is used to keep track and update the timer
+	 * display.
+	 */
+	private void timeStep() {
+
+		//Game over!
+		if (minutes == 0 && seconds == 0) {
+			String message = "Main Menu";
+			JOptionPane.showMessageDialog(this, message);
+			// Switch the game state to main menu
+			currentState = GameState.values()[0];
+			//Reset timer values
+			minutes = 2;
+			seconds = 30;
+			repaint();
+		}
+		//If minutes reach 0 then decrement minutes and reset seconds.
+		else if (seconds == 0) {
+			seconds = 60;
+			minutes--;
+		} else {
+			seconds--;
+		}
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -171,18 +209,18 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 		g.setFont(titleFont);
 
 		//Draw the border
-		Graphics2D g2d = (Graphics2D)g;
+		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(new BasicStroke(4));
-		g2d.setColor(new Color(158,255,0));
-		g2d.drawRect(5,5, width - 10, height-10);
+		g2d.setColor(new Color(158, 255, 0));
+		g2d.drawRect(5, 5, width - 10, height - 10);
 
 		//Draw the title text
 		g.setColor(Color.WHITE);
 		g.drawString("T", width - 210, 100);
 		titleFont = new Font("Monospace", Font.BOLD, 50);
 		g.setFont(titleFont);
-		g.drawString("ext", width-150, 60);
-		g.drawString("wist", width-153, 100);
+		g.drawString("ext", width - 150, 60);
+		g.drawString("wist", width - 153, 100);
 
 		//Font for everything else
 		Font normalFont = new Font("Monospace", Font.BOLD, 32);
@@ -272,7 +310,13 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
 				// Draw are useful game text
 				g.drawString("TIME: ", width - 400, height - 100);
-				String displayTime = timerMin + ":" + timerSeconds;
+				String displayTime;
+				if(seconds > 10){
+					displayTime = "0"+minutes + ":" + seconds;
+				}
+				else{
+					displayTime = "0"+minutes + ":0" + seconds;
+				}
 				g.drawString(displayTime, width - 400, height - 50);
 				g.drawString("SCORE: ", width - 400, height - 200);
 				g.drawString(score + "", width - 400, height - 150);
@@ -409,6 +453,21 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 						score = score + 360;
 					}
 
+					//Check to see if the user has found all the words
+					if (gameWords.size() == 0) {
+
+						//You win!
+						String message = "You win! Go back?";
+						JOptionPane.showMessageDialog(this, message);
+						// Switch the game state to main menu
+						currentState = GameState.values()[0];
+						//Reset timer
+						minutes = 2;
+						seconds = 30;
+						repaint();
+						return;
+					}
+
 					// Move the selected letters into letters to select
 					while (selectedLetters.size() > 0) {
 
@@ -423,8 +482,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
 					this.repaint();
 					return;
-				}
-				else if(foundWords.contains(enteredWord)){
+				} else if (foundWords.contains(enteredWord)) {
 
 					//Update help message
 					helpMessage = "Already found!";
@@ -516,6 +574,15 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 			// Shuffle the words
 			Collections.shuffle(lettersToSelect);
 
+			//Set up the timer
+			new Timer(1000, new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					timeStep();
+					repaint();
+				}
+			}).start();
+
+
 			// Switch the game state to game menu
 			currentState = GameState.values()[1];
 			this.repaint();
@@ -590,27 +657,22 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 
 	}
 
-	/**
-	 * The main method to execute the program.
-	 * @param args command line arguements
-	 * */
-	public static void main(String[] args) {
+	// For managing the game state
+	public enum GameState {
+		MAIN_MENU, GAME_MENU, HELP_MENU
+	}
 
-		invokeLater(new Runnable() {
-			public void run() {
-				// Create and set up the window.
-				JFrame frame = new JFrame("Text Twist");
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	// Private Letter Class
+	private class Letter {
 
-				TextTwist panel = new TextTwist();
-				frame.getContentPane().add(panel);
+		// Instance variables
+		protected String letter;
+		protected Rectangle letterBorder;
 
-				// Making sure the game scales well
-				frame.setResizable(false);
-				// Display the window.
-				frame.pack();
-				frame.setVisible(true);
-			}
-		});
+		public Letter(String letter, Rectangle letterBorder) {
+
+			this.letter = letter;
+			this.letterBorder = letterBorder;
+		}
 	}
 }
