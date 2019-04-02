@@ -435,6 +435,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
                         // letters to select.
                         selectedLetters.add(lettersToSelect.get(j));
                         lettersToSelect.remove(j);
+                        break;
                     }
                 }
 
