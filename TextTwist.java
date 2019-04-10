@@ -137,6 +137,15 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 		clearButton.setHorizontalTextPosition(AbstractButton.CENTER);
 		clearButton.setBounds(gameButtonX, gameButtonY, gameButtonWidth, gameButtonHeight);
 
+		//Set up the timer
+		timer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				timeStep();
+				repaint();
+			}
+		});
+
 		// Add action listeners for checking if a button is clicked
 		buttonBoard1.addActionListener(this);
 		buttonBoard2.addActionListener(this);
@@ -498,6 +507,8 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 						//Reset timer
 						minutes = 2;
 						seconds = 30;
+
+						//Stop the timer
 						timer.stop();
 						repaint();
 						return;
@@ -613,14 +624,7 @@ public class TextTwist extends JPanel implements MouseListener, ActionListener {
 			//Create the found words array list
 			foundWords = new ArrayList<>();
 
-			//Set up the timer
-			timer = new Timer(1000, new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					timeStep();
-					repaint();
-				}
-			});
+			//Start the timer
 			timer.start();
 
 			// Switch the game state to game menu
